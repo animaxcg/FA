@@ -1,6 +1,6 @@
 #!/bin/bash
 function getBranch() {
-    if [[ -z ${CODEBUILD_SOURCE_VERSION} ]]
+    if [[ ! -z ${CODEBUILD_SOURCE_VERSION} ]]
     then
         echo "${CODEBUILD_SOURCE_VERSION}" | awk -F "/" '{print $NF}'
     else
