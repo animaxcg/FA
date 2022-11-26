@@ -15,4 +15,5 @@ jobs:
           echo "Hello World"
           echo "test"
           sudo gem install bashcov
+          ls -l tests
           bashcov tests/test_script.sh
