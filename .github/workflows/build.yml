@@ -16,7 +16,6 @@ jobs:
           echo "test"
           sudo gem install bashcov
           pwd
+          echo "${{ github.workspace }}"
           ls -l ${{ github.workspace }}
-          ls -l ../
-          ls -l tests
           bashcov tests/test_script.sh
