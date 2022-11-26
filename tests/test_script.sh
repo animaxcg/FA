@@ -10,6 +10,8 @@ function assertResponse() {
         # echo "   EXPECTED: ${expected}"
         # echo "   RESULT: ${result}"
         echo "<testcase classname=\"${testName}\" name=\"${testName}\">"
+        echo "<failure message=\"FAILED\" type=\"error\">EXPECTED: ${expected}"
+        echo "RESULT: ${result}</failure>"
         echo "</testcase>"
 
     else
@@ -41,7 +43,7 @@ assertResponse getBranch_envVar ${expected} ${result}
 unset CODEBUILD_SOURCE_VERSION
 result=$(getBranch)
 expected="FA-1"
-assertResponse getBranch_envVar ${expected} ${result}
+assertResponse getBranch_envVar ${expected}2 ${result}
 
 
 
