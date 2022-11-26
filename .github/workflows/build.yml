@@ -1,0 +1,14 @@
+name: runTests
+
+
+on:
+  - push
+  - pull_request
+jobs:
+  docker:
+    environment: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: RunTests
+        run: echo ${{ steps.docker_build.outputs.digest }}
