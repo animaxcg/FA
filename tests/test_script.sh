@@ -12,7 +12,6 @@ function assertResponse() {
     else
          echo "${testName}: PASS"
     fi
-
 }
 
 
