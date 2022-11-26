@@ -11,4 +11,6 @@ jobs:
     steps:
       -
         name: RunTests
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: |
+          echo "Hello World"
+          echo "test"
