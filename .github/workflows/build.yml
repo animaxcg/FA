@@ -14,3 +14,5 @@ jobs:
         run: |
           echo "Hello World"
           echo "test"
+          gem install bashcov
+          bashcov tests/test_script.sh
