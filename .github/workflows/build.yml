@@ -4,8 +4,8 @@ name: runTests
 on:
   - push
   - pull_request
-    types:
-      - closed
+    # types:
+    #   - closed
 jobs:
   runTests:
     environment: build
