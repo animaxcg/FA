@@ -16,6 +16,7 @@ jobs:
       -
         name: RunTests
         run: |
+          env
           echo -e """event: ${{ toJson(github) }}"""
           # echo branch ref: ${{ github.event.pull_request.base.ref }}
           # echo "Hello World"
