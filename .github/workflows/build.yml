@@ -16,8 +16,10 @@ jobs:
       -
         name: RunTests
         run: |
+          
           env
-          echo -e """event: ${{ toJson(github) }}"""
+          gh pr view ${{ github.event.pull_request.number }} --json headRefName -q .headRefName
+          # echo -e """event: ${{ toJson(github) }}"""
           # echo branch ref: ${{ github.event.pull_request.base.ref }}
           # echo "Hello World"
           # echo "test"
