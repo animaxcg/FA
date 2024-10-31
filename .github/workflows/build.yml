@@ -2,10 +2,10 @@ name: runTests
 
 
 on:
-  # - push
-  pull_request:
-    types:
-      - closed
+  - push
+  - pull_request
+    # types:
+    #   - closed
 jobs:
   runTests:
     environment: build
@@ -16,15 +16,16 @@ jobs:
       -
         name: RunTests
         run: |
-          echo branch ref: ${{ github.event.pull_request.base.ref }}
-          echo "Hello World"
-          echo "test"
-          sudo gem install bashcov
-          pwd
-          echo "${{ github.workspace }}"
-          ls -l ${{ github.workspace }}
-          # bashcov tests/test_script.sh
-          tests/test_script.sh > TEST-1.xml
+          echo -e """event: ${{ toJson(github.event) }}"""
+          # echo branch ref: ${{ github.event.pull_request.base.ref }}
+          # echo "Hello World"
+          # echo "test"
+          # sudo gem install bashcov
+          # pwd
+          # echo "${{ github.workspace }}"
+          # ls -l ${{ github.workspace }}
+          # # bashcov tests/test_script.sh
+          # tests/test_script.sh > TEST-1.xml
       # - name: Publish Test Report
       #   uses: mikepenz/action-junit-report@v3
       #   if: always() # always run even if the previous step fails
