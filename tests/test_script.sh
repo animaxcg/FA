@@ -1,50 +1,67 @@
 #!/bin/bash
+
+JUNIT_OUTPUT=true
+JUNIT_FILE=junit-output.xml
+
+
 function assertResponse() {
     local testName="${1}"
     local expected="${2}"
     local result="${3}"
     local response="PASS"
+
     if [[ ${expected} != ${result} ]]
     then
-        # echo "${testName}: FAILED"
-        # echo "   EXPECTED: ${expected}"
-        # echo "   RESULT: ${result}"
-        echo "<testcase classname=\"${testName}\" name=\"${testName}\">"
-        echo "<failure message=\"FAILED\" type=\"error\">EXPECTED: ${expected}"
-        echo "RESULT: ${result}</failure>"
-        echo "</testcase>"
+        echo "${testName}: FAILED"
+        echo "   EXPECTED: ${expected}"
+        echo "   RESULT: ${result}"
+        if [[ "${JUNIT_OUTPUT}" == "true" ]]
+        then
+            echo "<testcase classname=\"${testName}\" name=\"${testName}\">" >> ${JUNIT_FILE}
+            echo "<failure message=\"FAILED\" type=\"error\">EXPECTED: ${expected}" >> ${JUNIT_FILE}
+            echo "RESULT: ${result}</failure>" >> ${JUNIT_FILE}
+            echo "</testcase>" >> ${JUNIT_FILE}
+        fi
 
     else
-        echo "<testcase classname=\"${testName}\" name=\"${testName}\"/>"
-        #  echo "${testName}: PASS"
+        if [[ "${JUNIT_OUTPUT}" == "true" ]]
+        then
+            echo "<testcase classname=\"${testName}\" name=\"${testName}\"/>" >> ${JUNIT_FILE}
+        fi
+        echo "${testName}: PASS"
     fi
 }
 
 
-# function parseJunitResults() {
+function createJUnitHeader() {
+    if [[ "${JUNIT_OUTPUT}" == "true" ]]
+    then
+        local numberOfTests=$(cat tests/test_script.sh| grep assertResponse | grep -v "#.*assertResponse" | grep -v "function assertResponse" | wc -l | tr -d " ")
+        echo "<testsuite tests=\"${numberOfTests}\">" > ${JUNIT_FILE}
+    fi
+}
+function createJUnitFooter() {
+    if [[ "${JUNIT_OUTPUT}" == "true" ]]
+    then
+        echo "</testsuite>" >> ${JUNIT_FILE}
+    fi
+}
 
-# }
-numberOfTests=$(cat tests/test_script.sh| grep assertResponse | grep -v "#.*assertResponse" | grep -v "function assertResponse" | wc -l | tr -d " ")
-echo "<testsuite tests=\"${numberOfTests}\">"
+createJUnitHeader
 
-# function git() {
-#     echo """* FA-1
-#   main
-# """
-# }
+
 export CODEBUILD_SOURCE_VERSION="refs/heads/main"
 
 source src/script.sh
 
 result=$(getBranch)
 expected="main"
-assertResponse getBranch_envVar ${expected} ${result}
+assertResponse getBranch_envVar ${expected} ${result} true
 
 unset CODEBUILD_SOURCE_VERSION
 result=$(getBranch)
 expected="FA-1"
-assertResponse getBranch_envVar ${expected}2 ${result}
+assertResponse getBranch_envVar ${expected} ${result} true
 
+createJUnitFooter
 
-
-echo "</testsuite>"

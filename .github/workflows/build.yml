@@ -2,8 +2,10 @@ name: runTests
 
 
 on:
-  - push
-  - pull_request
+  # - push
+  pull_request:
+    types:
+      - closed
 jobs:
   runTests:
     environment: build
@@ -14,6 +16,7 @@ jobs:
       -
         name: RunTests
         run: |
+          echo branch ref: ${{ github.event.pull_request.base.ref }}
           echo "Hello World"
           echo "test"
           sudo gem install bashcov
@@ -22,8 +25,8 @@ jobs:
           ls -l ${{ github.workspace }}
           # bashcov tests/test_script.sh
           tests/test_script.sh > TEST-1.xml
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
-        if: always() # always run even if the previous step fails
-        with:
-          report_paths: 'TEST-*.xml'
+      # - name: Publish Test Report
+      #   uses: mikepenz/action-junit-report@v3
+      #   if: always() # always run even if the previous step fails
+      #   with:
+      #     report_paths: 'TEST-*.xml'
