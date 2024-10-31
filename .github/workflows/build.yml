@@ -17,7 +17,7 @@ jobs:
         name: RunTests
         run: |
           echo event: ${{ toJson(github.event) }}
-          echo branch ref: ${{ github.event.pull_request.base.ref }}
+          # echo branch ref: ${{ github.event.pull_request.base.ref }}
           echo "Hello World"
           echo "test"
           sudo gem install bashcov
