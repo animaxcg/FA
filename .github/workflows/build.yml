@@ -20,7 +20,7 @@ jobs:
         run: |
           
           env
-          gh pr view ${{ github.event.pull_request.number }} --json headRefName -q .headRefName
+          gh pr view ${{ github.event.pull_request.number }}
           # echo -e """event: ${{ toJson(github) }}"""
           # echo branch ref: ${{ github.event.pull_request.base.ref }}
           # echo "Hello World"
